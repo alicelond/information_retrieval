@@ -5,9 +5,9 @@ from langchain_core.prompts import PromptTemplate
 import gradio as gr
 
 # Adding API keys with dot env, keep .env in .gitignore
-# import os
-# from dotenv import load_dotenv
-# load_dotenv()
+import os
+from dotenv import load_dotenv 
+load_dotenv()
 
 # Adding a prompt template
 prompt_template_str = """
