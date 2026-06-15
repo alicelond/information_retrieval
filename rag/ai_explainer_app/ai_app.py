@@ -1,5 +1,5 @@
 # Adding the libraries
-from langchain.chat_models import init_chat_model
+from langchain_huggingface.llms import HuggingFaceEndpoint
 from langchain_core.prompts import PromptTemplate
 # Generate web UI
 import gradio as gr
@@ -31,14 +31,19 @@ The personalization should be subtle and natural. Avoid forced references that d
 prompt_template = PromptTemplate.from_template(prompt_template_str)
 
 # Create model interface
-model = init_chat_model("gpt-4o-mini", model_provider="openai")
+llm = HuggingFaceEndpoint(
+    repo_id="google/flan-t5-small", 
+    temperature=0.7,
+    max_new_tokens=200 
+)
+model = llm 
 
 # Create explanation from model
 def generate_explanation(input_text: str) -> str:
   # Call the model with the prompt
-  response = model.invoke(prompt_template.format(concept=input_text))
-
-  return response.content
+  formatted_prompt = prompt_template.format(concept=input_text)
+  response = model.invoke(formatted_prompt)
+  return response
 
 demo = gr.Interface(
     fn=generate_explanation,
