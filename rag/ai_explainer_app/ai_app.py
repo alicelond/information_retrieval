@@ -1,5 +1,5 @@
 # Adding the libraries
-from langchain_huggingface.llms import HuggingFaceEndpoint
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 # Generate web UI
 import gradio as gr
@@ -30,11 +30,12 @@ The personalization should be subtle and natural. Avoid forced references that d
 # Create a prompt template object
 prompt_template = PromptTemplate.from_template(prompt_template_str)
 
-# Create model interface
-llm = HuggingFaceEndpoint(
-    repo_id="google/flan-t5-small", 
-    temperature=0.7,
-    max_new_tokens=200 
+# Create model interface for Gemini
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash-lite",
+    temperature=0.0, # Lower temperature for more deterministic explanations
+    max_output_tokens=100,
+    thinking_level="low"
 )
 model = llm 
 
